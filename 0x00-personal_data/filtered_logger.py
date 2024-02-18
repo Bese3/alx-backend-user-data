@@ -53,7 +53,7 @@ def get_logger() -> logging.Logger:
     configured to redact sensitive information before
     outputting to the stream.
     """
-    logger = logging.Logger('user_data')
+    logger = logging.getLogger('user_data')
 
     handler = logging.StreamHandler()
     handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
