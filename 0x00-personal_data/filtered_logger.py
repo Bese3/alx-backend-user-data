@@ -2,9 +2,11 @@
 """
 Module for handling Personal Data
 """
-from typing import List
+from typing import List, Tuple
 import re
 import logging
+
+PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(fields: List[str],
@@ -43,3 +45,22 @@ class RedactingFormatter(logging.Formatter):
         """
         log = super(RedactingFormatter, self).format(record=record)
         return filter_datum(self.fields, self.REDACTION, log, self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    """
+    The function `get_logger` returns a logging object
+    configured to redact sensitive information before
+    outputting to the stream.
+    """
+    logger = logging.Logger('user_data')
+
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+    logger.setLevel(logging.INFO)
+
+    # handler.setLevel(logging.INFO)
+    logger.addHandler(handler)
+    logger.propagate = False
+
+    return logger
