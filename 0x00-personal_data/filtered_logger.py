@@ -5,6 +5,8 @@ Module for handling Personal Data
 from typing import List, Tuple
 import re
 import logging
+import mysql.connector
+from os import getenv
 
 PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
 
@@ -64,3 +66,18 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    This function establishes a connection to a MySQL database using
+    environment variables for host, database name, username, and password.
+    """
+    ms = mysql.connector.connect(
+                                 host=getenv('PERSONAL_DATA_DB_HOST'),
+                                 database=getenv('PERSONAL_DATA_DB_NAME'),
+                                 user=getenv('PERSONAL_DATA_DB_USERNAME'),
+                                 password=getenv('PERSONAL_DATA_DB_PASSWORD'),
+                                 auth_plugin='mysql_native_password'
+                                 )
+    return ms
