@@ -81,3 +81,26 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                  auth_plugin='mysql_native_password'
                                  )
     return ms
+
+
+def main():
+    '''
+    main function starts here
+    '''
+    db = get_db()
+    cursor = db.cursor()
+    logger = get_logger()
+    cursor.execute('SELECT * FROM users;')
+    rows = cursor.fetchall()
+    for r in rows:
+        msg = F"name={r[0]}; email={r[1]};\
+                phone={r[2]}; ssn={r[3]}; password={r[4]};\
+                ip={r[5]}; last_login={r[6]}; user_agent={r[6]};"
+        logger.info(msg)
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()
+
