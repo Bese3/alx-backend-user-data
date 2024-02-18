@@ -15,8 +15,8 @@ def filter_datum(fields: List[str],
     """
     my_str = message
     for i in fields:
-        pattern = re.search(i + '[^;]*', message)
+        pattern = re.search(i + f'[^{separator}]*', message)
         repl = i + '=' + redaction
         my_str = re.sub(pattern.group(0), repl, my_str)
-    my_str = re.sub(';', separator, my_str)
+    # my_str = re.sub(';', separator, my_str)
     return my_str
