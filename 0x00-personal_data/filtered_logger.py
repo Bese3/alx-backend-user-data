@@ -59,7 +59,7 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
     logger.setLevel(logging.INFO)
 
-    # handler.setLevel(logging.INFO)
+    handler.setLevel(logging.INFO)
     logger.addHandler(handler)
     logger.propagate = False
 
