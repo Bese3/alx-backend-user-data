@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Module of Index views
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, make_response
 from api.v1.views import app_views
 
 
@@ -24,3 +24,12 @@ def stats() -> str:
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats)
+
+
+@app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
+def authorize_error():
+    """
+    The function `authorize_error` is used to abort
+    the request with a 401 Unauthorized status code.
+    """
+    abort(401)
