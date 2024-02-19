@@ -33,3 +33,12 @@ def authorize_error():
     the request with a 401 Unauthorized status code.
     """
     abort(401)
+
+
+@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden_error():
+    """
+    The function `forbidden_error` is designed to return a 403
+    Forbidden error.
+    """
+    abort(403)
