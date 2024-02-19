@@ -24,6 +24,10 @@ if auth:
 
 @app.before_request
 def request_verfication():
+    """
+    The function `request_verification` checks for authentication
+    and authorization before allowing access to certain paths in an API.
+    """
     if auth is None:
         return
     excluded_paths = [
