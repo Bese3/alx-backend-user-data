@@ -13,8 +13,8 @@ class SessionExpAuth(SessionAuth):
     '''
     def __init__(self):
         self.session_duration = 0
-        if getenv('SESSION_DURATION') or \
-                not isinstance(int(getenv('SESSION_DURATION')), int):
+        if getenv('SESSION_DURATION') and \
+                isinstance(int(getenv('SESSION_DURATION')), int):
             self.session_duration = int(getenv('SESSION_DURATION'))
 
     def create_session(self, user_id: str = None) -> str:
