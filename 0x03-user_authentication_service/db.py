@@ -57,7 +57,7 @@ class DB:
             raise NoResultFound
         return user
 
-    def update_user(self, user_id: int, **kwargs):
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         The function updates a user's information in a database based
         on the provided user ID and key-value pairs.
