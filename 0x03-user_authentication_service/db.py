@@ -64,7 +64,7 @@ class DB:
         """
         user = self.find_user_by(**{'id': user_id})
         if not user:
-            return
+            raise ValueError
         c = User.__table__.columns.keys()
         for k in kwargs.keys():
             if k not in c:
