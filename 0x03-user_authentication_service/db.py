@@ -34,7 +34,6 @@ class DB:
         This function adds a new user to the database with the
         provided email and hashed password.
         """
-        DB._session
         user = User(email=email, hashed_password=hashed_password)
         self.__session.add(user)
         self.__session.commit()
