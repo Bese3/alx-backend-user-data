@@ -62,7 +62,7 @@ class DB:
         The function updates a user's information in a database based
         on the provided user ID and key-value pairs.
         """
-        user = self.find_user_by(**{'id': user_id})
+        user = self.find_user_by(id=user_id)
         if not user:
             raise ValueError
         c = User.__table__.columns.keys()
