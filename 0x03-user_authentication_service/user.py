@@ -6,6 +6,7 @@ from sqlalchemy import Column, String, DATETIME, INTEGER
 
 base = declarative_base()
 
+
 class User(base):
     '''
     user db class
