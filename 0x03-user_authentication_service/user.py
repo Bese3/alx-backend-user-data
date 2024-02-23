@@ -4,10 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DATETIME, INTEGER
 
 
-base = declarative_base()
+Base = declarative_base()
 
 
-class User(base):
+class User(Base):
     '''
     user db class
     '''
