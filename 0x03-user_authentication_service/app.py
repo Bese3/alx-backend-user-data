@@ -5,7 +5,8 @@ from flask import (
                     Flask,
                     jsonify,
                     make_response,
-                    request
+                    request,
+                    abort
                   )
 
 
@@ -36,6 +37,22 @@ def create_user():
             {"message": "email already registered"}), 400)
     return make_response(jsonify(
         {"email": F"{email}", "message": "user created"}), 200)
+
+
+@app.route('/sessions',  methods=['POST'], strict_slashes=False)
+def login_sessions():
+    """
+    `login_sessions` function handles user login authentication
+    and creates a session cookie upon successful login.
+    """
+    email = request.form.get('email', None)
+    password = request.form.get('password', None)
+    if not AUTH.valid_login(email, password):
+        abort(401)
+    resp = make_response(jsonify({"email": F"{email}",
+                                  "message": "logged in"}), 200)
+    resp.set_cookie('session_id', AUTH.create_session(email))
+    return resp
 
 
 if __name__ == "__main__":
