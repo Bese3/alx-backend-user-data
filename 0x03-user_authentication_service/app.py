@@ -6,7 +6,8 @@ from flask import (
                     jsonify,
                     make_response,
                     request,
-                    abort
+                    abort,
+                    redirect
                   )
 
 
@@ -53,6 +54,20 @@ def login_sessions():
                                   "message": "logged in"}), 200)
     resp.set_cookie('session_id', AUTH.create_session(email))
     return resp
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout_sessions():
+    """
+    `logout_sessions` logs out a user by destroying their session and
+    redirecting them to the homepage.
+    """
+    s_id = request.cookies.get('session_id', None)
+    user = AUTH.get_user_from_session_id(s_id)
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect('/')
 
 
 if __name__ == "__main__":
