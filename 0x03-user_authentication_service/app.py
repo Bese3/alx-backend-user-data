@@ -85,7 +85,7 @@ def get_profile():
     if user is None:
         abort(403)
     return make_response(jsonify({'email': f'{user.email}'}), 200)
-    
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
