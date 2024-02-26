@@ -87,5 +87,29 @@ def get_profile():
     return make_response(jsonify({'email': f'{user.email}'}), 200)
 
 
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def reset_password_token():
+    """
+    `reset_password_token()` is returning a JSON response with the
+    email and reset token in the format:
+    ```json
+    {
+        "email": "example@example.com",
+        "reset_token": "generated_reset_token"
+    }
+    ```
+    The HTTP status code returned is 200 (OK).
+    """
+    email = request.form.get('email', None)
+    if email is None:
+        abort(403)
+    try:
+        rest_token = AUTH.get_reset_password_token(email)
+    except ValueError:
+        abort(403)
+    return make_response(jsonify({"email": F"{email}",
+                                  "reset_token": F"{rest_token}"}), 200)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
