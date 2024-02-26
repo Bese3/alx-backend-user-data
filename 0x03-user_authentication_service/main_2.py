@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
-from auth import Auth
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
+from app import app, AUTH
 
-user = auth.register_user(email, password)
-auth.create_session(email)
+user = AUTH.register_user(
+    'test@test.com',
+    'test'
+)
 
-print(auth.destroy_session(user.id))
-# print(auth.create_session("unknown@email.com"))
+reset_token = AUTH.get_reset_password_token(
+    'test@test.com'
+)
+
+with app.test_client() as c:
+    payload = {
+        'email': "test@test.com",
+        'reset_token': "bad_reset_token",
+        'new_password': 'test'
+    }
+    resp = c.put('/reset_password', data=payload)
+    if resp.status_code != 403:
+        print("Status code not 403")
+        exit(0)
+
+print("OK", end='')
