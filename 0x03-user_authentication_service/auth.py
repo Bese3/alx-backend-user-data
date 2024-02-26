@@ -39,13 +39,13 @@ class Auth:
         try:
             user = self._db.find_user_by(**{'email': email})
         except (InvalidRequestError, NoResultFound):
-            pass
-        if user is not None:
-            raise ValueError(F'user {user.email} already exists')
-        if not isinstance(password, bytes):
-            password = _hash_password(password)
-        self._db.add_user(email, password)
-        return user
+            hashed_password = _hash_password(password)
+            user = self._db.add_user(email, hashed_password)
+
+            return user
+
+        else:
+            raise ValueError(f'User {email} already exists')
 
     def valid_login(self, email: str, password: str) -> bool:
         """
