@@ -114,11 +114,14 @@ class Auth:
         `update_password` updates a user's password in the database using a
         reset token and a new password.
         """
+        if reset_token is None or password is None:
+            return None
         try:
             user = self._db.find_user_by(**{'reset_token': reset_token})
         except (InvalidRequestError, NoResultFound):
             raise ValueError
         hashpw = _hash_password(password)
         self._db.update_user(user.id,
-                             **{'password': hashpw, 'reset_token': None})
+                             hashed_password=hashpw,
+                             reset_token=None)
         return
