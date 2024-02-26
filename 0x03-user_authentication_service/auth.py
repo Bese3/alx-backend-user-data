@@ -15,6 +15,13 @@ def _hash_password(password: str) -> str:
     return hashed
 
 
+def _generate_uuid() -> str:
+    """
+    returns a randomly generated UUID.
+    """
+    return str(uuid4())
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -53,9 +60,3 @@ class Auth:
         if bcrypt.checkpw(password.encode(), user.hashed_password):
             return True
         return False
-
-    def _generate_uuid(self):
-        """
-        returns a randomly generated UUID.
-        """
-        return str(uuid4())
