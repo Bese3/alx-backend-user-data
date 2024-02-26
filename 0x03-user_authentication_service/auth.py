@@ -66,7 +66,6 @@ class Auth:
         `create_session` takes an email, finds the user in the database,
         updates the user's session ID in the database.
         """
-        user = None
         try:
             user = self._db.find_user_by(**{'email': email})
         except (InvalidRequestError, NoResultFound):
