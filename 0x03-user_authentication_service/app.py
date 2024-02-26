@@ -84,7 +84,7 @@ def get_profile():
     user = AUTH.get_user_from_session_id(s_id)
     if user is None:
         abort(403)
-    return make_response(jsonify({'email': f'{user.email}'}), 200)
+    return make_response(jsonify({'email': {user.email}}), 200)
 
 
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
@@ -107,8 +107,8 @@ def reset_password_token():
         rest_token = AUTH.get_reset_password_token(email)
     except ValueError:
         abort(403)
-    return make_response(jsonify({"email": F"{email}",
-                                  "reset_token": F"{rest_token}"}), 200)
+    return make_response(jsonify({"email": {email},
+                                  "reset_token": {rest_token}}), 200)
 
 
 @app.route('/reset_password', methods=['PUT'], strict_slashes=False)
@@ -120,11 +120,13 @@ def update_password():
     email = request.form.get('email', None)
     reset_token = request.form.get('reset_token', None)
     password = request.form.get('password', None)
+    if not email or not reset_token or not password:
+        abort(400)
     try:
         AUTH.update_password(reset_token, password)
     except ValueError:
         abort(403)
-    return make_response(jsonify({"email": F"{email}",
+    return make_response(jsonify({"email": {email},
                                   "message": "Password updated"}), 200)
 
 
