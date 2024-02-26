@@ -86,9 +86,12 @@ class Auth:
         return user
 
     def destroy_session(self, user_id: int) -> None:
-        """
-        The `destroy_session` function updates the session ID
-        of a user to None in the database.
-        """
-        self._db.update_user(user_id, session_id=None)
-        return
+        """Updates the corresponding user's session ID to None"""
+        try:
+            user = self._db.find_user_by(id=user_id)
+        except NoResultFound:
+            return None
+
+        self._db.update_user(user.id, session_id=None)
+
+        return None
