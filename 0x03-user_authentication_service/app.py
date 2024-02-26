@@ -63,6 +63,8 @@ def logout_sessions():
     redirecting them to the homepage.
     """
     s_id = request.cookies.get('session_id', None)
+    if s_id is None:
+        abort(403)
     user = AUTH.get_user_from_session_id(s_id)
     if user is None:
         abort(403)
